@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">Token Radar &middot; snapshot 14 November 2026</p>
+  <h1>Which protocol launches next — and what would its token be worth?</h1>
+  <p class="lede">Every protocol the snapshot records with no token, ranked by an implied value
+  built only from its own figures: its TVL, its seven-day growth, how long it has
+  run with no token, and how many chains it spans.</p>
+  <dl class="stats" id="stats"></dl>
+</header>
+
+<section class="model" aria-label="The value model">
+  <h2>How the number is made</h2>
+  <p class="formula">implied = 100 &times; TVL<sup>0.7</sup> &times; (1 + 0.35 &times; growth) &times; maturity &times; breadth &times; plausibility</p>
+  <ul>
+    <li><b>Size:</b> TVL to the power 0.7 — log-scaled, so ten times the TVL is about five times the value.</li>
+    <li><b>Growth:</b> seven-day TVL change, clamped to &minus;50% &hellip; +300%, weighted 0.35.</li>
+    <li><b>Maturity:</b> 0.70 &rarr; 1.00 over 1,500 days since first listed; 0.85 when the listing date is unknown.</li>
+    <li><b>Breadth:</b> +2% per extra chain, up to five.</li>
+    <li><b>Plausibility:</b> 0.05 for exchanges and for products that wrap, stake or bridge a token that already
+    trades — their token, if any, already exists in another form. Everything else scores 1.00.</li>
+  </ul>
+  <p class="caveat">A protocol here <i>records</i> no token; that is not proof it has none. Implied values are this
+  entry&rsquo;s own claim, never a prediction of whether or when a token is issued. Equal formula values are
+  separated by one dollar so the ranking is strict.</p>
+</section>
+
+<main>
+  <div class="controls" role="search">
+    <div class="tabs" id="tabs">
+      <button type="button" data-tab="pre-token" class="active">Pre-token board</button>
+      <button type="button" data-tab="live">Live set &mdash; already trades</button>
+    </div>
+    <label>Search <input id="q" type="search" placeholder="Name or slug&hellip;" autocomplete="off"></label>
+    <label>Category <select id="category"><option value="all">All categories</option></select></label>
+    <label>Chain <select id="chain"><option value="all">All chains</option></select></label>
+    <label>Sort <select id="sort">
+      <option value="implied">Implied value</option>
+      <option value="rank">Rank</option>
+      <option value="tvl">TVL</option>
+      <option value="growth">7-day change</option>
+      <option value="age">Age</option>
+    </select></label>
+  </div>
+  <p class="count" id="count"></p>
+  <div class="table-wrap">
+    <table id="board">
+      <thead>
+        <tr>
+          <th data-sort="rank">#</th>
+          <th data-sort="name">Protocol</th>
+          <th data-sort="category">Category</th>
+          <th>Chains</th>
+          <th data-sort="tvl">TVL</th>
+          <th data-sort="growth">7d</th>
+          <th data-sort="age">Age</th>
+          <th data-sort="implied">Implied value</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <section class="detail" id="detail" aria-live="polite"></section>
+</main>
+
+<footer>
+  <p>Source: DefiLlama public protocols snapshot, fetched 14 November 2026. Model radar-2. No network is used:
+  every byte on this page comes from the snapshot beside it.</p>
+</footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
